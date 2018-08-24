@@ -4,14 +4,29 @@ import Order from './Order';
 import Inventory from './Inventory';
 
 class App extends React.Component{
-    render(){
+    state = {
+        fishes: {},
+        order: {}
+    };
+    addFish = fish => {
+        //take a copy of existing state
+        const fishes = {...this.state.fishes};
+        //add new fish to new fishes variable
+        fishes[`fish${Date.now()}`] = fish;
+        //never want to reach into state and modify it directly (mutation)
+        // set the new fishes object to state
+        this.setState({
+            fishes: fishes
+        });
+    };
+    render() {
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
                     <Header tagline="Fresh Seafood Market"/>
                 </div>
                 <Order />
-                <Inventory />
+                <Inventory addFish={this.addFish} />
             </div>
         );
     }
